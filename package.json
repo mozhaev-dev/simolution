@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "build": "webpack --env mode=production",
-    "start": "webpack serve --env mode=development"
+    "start": "webpack serve --open --env mode=development"
   },
   "author": "Sergey Mozhaev<mozhaev.dev@gmail.com>",
   "license": "ISC",
