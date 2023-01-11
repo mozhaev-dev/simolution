@@ -72,6 +72,14 @@ class Grid {
     };
     return this.getSquare(nextSquareLeftBottomPoint);
   }
+
+  getAxisX() {
+    return this.axisX;
+  }
+
+  getAxisY() {
+    return this.axisY;
+  }
 }
 
 export default Grid;

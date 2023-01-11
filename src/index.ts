@@ -1,4 +1,7 @@
 import config from "./config";
-import { init } from "./core";
+import { init as initCore } from "./core";
+import { init as initCanvas } from "./render";
+import "./style.css";
 
-init(config);
+const world = initCore(config);
+initCanvas("canvasContainer", world, config);

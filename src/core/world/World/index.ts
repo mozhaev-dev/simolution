@@ -36,6 +36,18 @@ class World {
       return acc;
     }, []);
   }
+
+  getGrid() {
+    return this.grid;
+  }
+
+  getFood() {
+    return this.food;
+  }
+
+  getLoop() {
+    return this.loop;
+  }
 }
 
 export default World;

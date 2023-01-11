@@ -8,17 +8,14 @@ class Loop {
   constructor(callBack: LoopCallback, interval: number) {
     this.interval = interval;
 
-    const multiplier = 1000;
     this.timer = setInterval(() => {
       this.listeners.forEach((listener) => listener());
       callBack();
-    }, this.interval * multiplier);
+    }, this.interval * 1000);
   }
 
-  subscribe(loopCallback: LoopCallback | LoopCallback[]) {
-    if (Array.isArray(loopCallback)) {
-      this.listeners = [...this.listeners, ...loopCallback];
-    }
+  subscribe(loopCallback: LoopCallback) {
+    this.listeners.push(loopCallback);
   }
 
   unSubscribe(loopCallback: LoopCallback) {
