@@ -1,29 +1,26 @@
+export type LoopTick = "loopTick";
 type LoopCallback = () => void;
 
 class Loop {
   private interval: number;
   private timer: NodeJS.Timer;
-  private listeners: LoopCallback[] = [];
+  private loopTickEventName: LoopTick = "loopTick";
 
-  constructor(callBack: LoopCallback, interval: number) {
+  constructor(callback: LoopCallback, interval: number) {
     this.interval = interval;
 
     this.timer = setInterval(() => {
-      this.listeners.forEach((listener) => listener());
-      callBack();
+      window.dispatchEvent(new CustomEvent(this.loopTickEventName));
+      callback();
     }, this.interval * 1000);
   }
 
-  subscribe(loopCallback: LoopCallback) {
-    this.listeners.push(loopCallback);
+  subscribe(callback: LoopCallback) {
+    window.addEventListener(this.loopTickEventName, callback);
   }
 
-  unSubscribe(loopCallback: LoopCallback) {
-    const index = this.listeners.findIndex(
-      (listener) => listener === loopCallback
-    );
-    const deleteCount = 1;
-    this.listeners.splice(index, deleteCount);
+  unsubscribe(callback: LoopCallback) {
+    window.removeEventListener(this.loopTickEventName, callback);
   }
 
   destroy() {

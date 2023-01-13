@@ -1,7 +1,7 @@
 import World from "../core/world/World";
 import { Config } from "../types";
-import { renderGrid } from "./Grid";
 import Food from "./objects/Food";
+import Life from "./objects/Life";
 
 export const init = (rootId: string, world: World, config: Config) => {
   const rootEl = document.getElementById(rootId);
@@ -24,20 +24,17 @@ export const init = (rootId: string, world: World, config: Config) => {
   const squareWidthPx = canvasWidthPx / gridModel.getAxisX().length;
   const squareHeightPx = canvasHeightPx / gridModel.getAxisY().length;
 
-  renderGrid(
-    ctx,
-    gridModel,
-    canvasWidthPx,
-    canvasHeightPx,
-    squareWidthPx,
-    squareHeightPx,
-    config
-  );
-
-  world
+  const food = world
     .getFood()
     .map(
-      (foodModel) =>
-        new Food(world.getLoop(), foodModel, ctx, squareWidthPx, squareHeightPx)
+      (foodModel) => new Food(foodModel, ctx, squareWidthPx, squareHeightPx)
     );
+  console.log(food);
+
+  const life = world
+    .getLife()
+    .map(
+      (lifeModel) => new Life(lifeModel, ctx, squareWidthPx, squareHeightPx)
+    );
+  console.log(life);
 };

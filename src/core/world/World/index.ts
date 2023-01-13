@@ -1,20 +1,25 @@
 import Grid from "../Grid";
 import Loop from "../../loop/Loop";
 import Food from "../objects/Food";
+import Life from "../objects/Life";
+import WorldObject from "../objects/WorldObject";
+import Square from "../Square";
 
 class World {
   private food: Food[] = [];
+  private life: Life[] = [];
+
   constructor(private grid: Grid, private loop: Loop) {}
 
-  createRandomFood(amount = 1) {
-    this.food = [...Array(amount).keys()].reduce<Food[]>((acc) => {
-      const iter = (food: Food[]): Food | null => {
+  createRandomSquares(amount: number) {
+    return [...Array(amount).keys()].reduce<Square[]>((acc) => {
+      const iter = (objectsCollection: WorldObject[]): Square | null => {
         const square = this.grid.getRandomSquare();
 
         if (!square) return null;
         if (
-          food.find((foodItem) => {
-            const foodItemLeftTopPoint = foodItem.getShape()[0].getLeftTop();
+          objectsCollection.find((item) => {
+            const foodItemLeftTopPoint = item.getShape()[0].getLeftTop();
             const squareLeftTopPoint = square.getLeftTop();
             return (
               foodItemLeftTopPoint.x === squareLeftTopPoint.x &&
@@ -22,19 +27,31 @@ class World {
             );
           })
         ) {
-          return iter(food);
+          return iter(objectsCollection);
         }
-        return new Food([square]);
+        return square;
       };
 
-      const food = iter(acc);
+      const square = iter([...this.food, ...this.life]);
 
-      if (food) {
-        acc.push(food);
+      if (square) {
+        acc.push(square);
       }
 
       return acc;
     }, []);
+  }
+
+  createRandomFood(amount = 1) {
+    this.food = this.createRandomSquares(amount).map(
+      (square) => new Food([square])
+    );
+  }
+
+  createRandomLife(amount = 1) {
+    this.life = this.createRandomSquares(amount).map(
+      (square) => new Life([square], this.grid, this.loop)
+    );
   }
 
   getGrid() {
@@ -43,6 +60,10 @@ class World {
 
   getFood() {
     return this.food;
+  }
+
+  getLife() {
+    return this.life;
   }
 
   getLoop() {

@@ -1,28 +1,18 @@
-import DynamicObject from "../DynamicObject";
-import WorldObject from "../../../core/world/objects/WorldObject";
-import Loop from "../../../core/loop/Loop";
+import WorldObject from "../WorldObject";
+import WorldObjectModel from "../../../core/world/objects/WorldObject";
 
-class Food extends DynamicObject {
+class Food extends WorldObject {
   constructor(
-    loop: Loop,
-    worldObjectModel: WorldObject,
+    worldObjectModel: WorldObjectModel,
     ctx: CanvasRenderingContext2D,
     squareWidthPx: number,
     squareHeightPx: number
   ) {
-    super(
-      loop,
-      worldObjectModel,
-      ctx,
-      squareWidthPx,
-      squareHeightPx,
-      "#000000"
-    );
+    super(worldObjectModel, ctx, squareWidthPx, squareHeightPx, "#000000");
+    this.update();
   }
 
   onUpdate() {
-    console.log("food updated");
-
     this.update();
   }
 }

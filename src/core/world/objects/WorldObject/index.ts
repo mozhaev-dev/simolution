@@ -1,10 +1,16 @@
 import Square from "../../Square";
 
 abstract class WorldObject {
-  constructor(private shape: Square[]) {}
+  protected onUpdateSubscribeCallback: (() => void) | null = null;
+
+  constructor(protected shape: Square[]) {}
 
   getShape() {
     return this.shape;
+  }
+
+  onUpdate(callback: () => void) {
+    this.onUpdateSubscribeCallback = callback;
   }
 }
 

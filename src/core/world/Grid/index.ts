@@ -43,8 +43,8 @@ class Grid {
 
   getNextRightSquare(square: Square) {
     const nextSquareRightTopPoint = {
-      x: square.getRightTop().x + 1,
-      y: square.getRightTop().y,
+      x: square.getLeftTop().x + 1,
+      y: square.getLeftTop().y,
     };
     return this.getSquare(nextSquareRightTopPoint);
   }
@@ -60,15 +60,15 @@ class Grid {
   getNextTopSquare(square: Square) {
     const nextSquareLeftTopPoint = {
       x: square.getLeftTop().x,
-      y: square.getLeftTop().y + 1,
+      y: square.getLeftTop().y - 1,
     };
     return this.getSquare(nextSquareLeftTopPoint);
   }
 
   getNextBottomSquare(square: Square) {
     const nextSquareLeftBottomPoint = {
-      x: square.getLeftBottom().x,
-      y: square.getLeftBottom().y - 1,
+      x: square.getLeftTop().x,
+      y: square.getLeftTop().y + 1,
     };
     return this.getSquare(nextSquareLeftBottomPoint);
   }

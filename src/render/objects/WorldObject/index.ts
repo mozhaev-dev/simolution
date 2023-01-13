@@ -1,21 +1,17 @@
-import WorldObject from "../../../core/world/objects/WorldObject";
-import Loop from "../../../core/loop/Loop";
 import Square from "../../../core/world/Square";
+import WorldObjectModel from "../../../core/world/objects/WorldObject";
 
-abstract class DynamicObject {
-  private onUpdateCallback: () => void;
+abstract class WorldObject {
   private geometryShape: Square[] = [];
 
   constructor(
-    private loop: Loop,
-    protected worldObjectModel: WorldObject,
+    protected worldObjectModel: WorldObjectModel,
     protected ctx: CanvasRenderingContext2D,
     protected squareWidthPx: number,
     protected squareHeightPx: number,
     protected objectColor: string
   ) {
-    this.onUpdateCallback = () => this.onUpdate.apply(this);
-    this.loop.subscribe(this.onUpdateCallback);
+    this.worldObjectModel.onUpdate(this.update.bind(this));
   }
 
   abstract onUpdate(): void;
@@ -25,7 +21,7 @@ abstract class DynamicObject {
       this.ctx.clearRect(
         square.getLeftTop().x * this.squareWidthPx,
         square.getLeftTop().y * this.squareHeightPx,
-        Number(this.squareWidthPx),
+        Number(this.squareWidthPx + 1),
         Number(this.squareHeightPx)
       );
     });
@@ -52,11 +48,6 @@ abstract class DynamicObject {
     this.clear();
     this.render();
   }
-
-  destroy() {
-    this.loop.unSubscribe(this.onUpdateCallback);
-    this.clear();
-  }
 }
 
-export default DynamicObject;
+export default WorldObject;
